@@ -43,6 +43,21 @@ const festivalView = () => {
     });
 };
 
+const festivalByCategory = (api) => {
+  axios
+    .get(api)
+    .then(function (result) {
+      const status = result.status;
+      const data = result.data;
+      console.log('통신결과 : ', result);
+      underFestivalList = data.culturalEventInfo.row;
+      cardRender();
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
+
 const getCardsByCategory = (event) => {
   // 버튼을 누르면 해당 카테고리의 행사를 찾아주는 기능
   let category = event.currentTarget.getAttribute('data-categoryBtn');
@@ -51,40 +66,7 @@ const getCardsByCategory = (event) => {
     festivalView();
   } else {
     console.log('카테고리 클릭');
-    if (category === '국악') {
-      host =
-        window.location.hostname === 'localhost'
-          ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
-          : 'apiK';
-      apiClient = axios.create({
-        baseURL: host,
-      });
-      apiClient
-        .get(`1/50/${category}///2024-07-21`)
-        .then(function (result) {
-          const status = result.status;
-          const data = result.data;
-          console.log('통신결과 : ', result);
-          underFestivalList = data.culturalEventInfo.row;
-          cardRender();
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-      return;
-    }
-    apiClient
-      .get(`1/50/${category}///2024-07-21`)
-      .then(function (result) {
-        const status = result.status;
-        const data = result.data;
-        console.log('통신결과 : ', result);
-        underFestivalList = data.culturalEventInfo.row;
-        cardRender();
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+    festivalByCategory(category);
   }
 };
 
