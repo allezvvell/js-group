@@ -44,18 +44,15 @@ const festivalView = () => {
 };
 
 const festivalByCategory = (api) => {
-  axios
-    .get(api)
-    .then(function (result) {
-      const status = result.status;
-      const data = result.data;
-      console.log('통신결과 : ', result);
-      underFestivalList = data.culturalEventInfo.row;
-      cardRender();
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+  host =
+    window.location.hostname === 'localhost'
+      ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
+      : api;
+
+  apiClient = axios.create({
+    baseURL: host,
+  });
+  festivalView();
 };
 
 const getCardsByCategory = (event) => {
