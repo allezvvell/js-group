@@ -43,13 +43,14 @@ const festivalView = () => {
     });
 };
 
-const getCardsByCategory = async (event) => {
+const getCardsByCategory = (event) => {
   // 버튼을 누르면 해당 카테고리의 행사를 찾아주는 기능
   let category = event.currentTarget.getAttribute('data-categoryBtn');
   console.log(category);
   if (category === '전체') {
     festivalView();
   } else {
+    console.log('카테고리 클릭');
     apiClient
       .get(`1/50/${category}///2024-07-21`)
       .then(function (result) {
