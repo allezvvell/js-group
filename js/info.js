@@ -1,5 +1,18 @@
 // <---------------------------------------------------------------여기 부터 소식 하단 파트 --------------------------------------------------------->//
 const festivalApiKey = `59746b4962686f7436334e564e6778`;
+
+const url = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`;
+axios
+  .get(url)
+  .then(function (result) {
+    const status = result.status;
+    const data = result.data;
+    console.log('통신결과 : ', result);
+  })
+  .catch(function (err) {
+    console.log(err);
+  });
+
 let underFestivalUrl = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`; // API 키
 const typeButtons = document.querySelectorAll(
   '.typeButton button, .typeButton button font'
