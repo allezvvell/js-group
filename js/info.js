@@ -147,7 +147,7 @@ const moreButtonArea = document.querySelector('.festival-more-btn');
 const FESTIVAL_API_KEY =
   '4Jj5rc%2BmE6PU5FPhSUrBLlZ%2F7YU9rhZSd7xA4SnN17zDZGzvJs5bJhMuZKGgwOyDZIDXqzRjWAMakxfgk3jjQQ%3D%3D';
 const FESTIVAL_PAGE_SIZE = 10;
-const DEFAULT_URL = 'http://apis.data.go.kr/B551011/KorService1';
+const DEFAULT_URL = '//apis.data.go.kr/B551011/KorService1';
 const today = new Date();
 const todayYear = today.getFullYear().toString();
 const todayMonth = (today.getMonth() + 1).toString().padStart(2, '0');
