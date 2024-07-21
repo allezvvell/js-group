@@ -43,12 +43,11 @@ const festivalView = async () => {
       const data = result.data;
       console.log('통신결과 : ', result);
       underFestivalList = data.culturalEventInfo.row;
+      cardRender();
     })
     .catch(function (err) {
       console.log(err);
     });
-
-  cardRender();
 };
 
 const getCardsByCategory = async (event) => {
