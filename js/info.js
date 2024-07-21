@@ -10,18 +10,6 @@ const apiClient = axios.create({
   baseURL: host,
 });
 
-// const url = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`;
-apiClient
-  .get('2024-07-21')
-  .then(function (result) {
-    const status = result.status;
-    const data = result.data;
-    console.log('통신결과 : ', result);
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
-
 let underFestivalUrl = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`; // API 키
 const typeButtons = document.querySelectorAll(
   '.typeButton button, .typeButton button font'
@@ -42,11 +30,23 @@ function googleTranslateElementInit() {
 const festivalView = async () => {
   // API 값을 불러오는 기능
 
-  const response = await fetch(underFestivalUrl);
-  const data = await response.json();
-  underFestivalList = data.culturalEventInfo.row;
-  console.log(data);
-  console.log(underFestivalList);
+  // const response = await fetch(underFestivalUrl);
+  // const data = await response.json();
+  // underFestivalList = data.culturalEventInfo.row;
+  // console.log(data);
+  // console.log(underFestivalList);
+
+  apiClient
+    .get('2024-07-21')
+    .then(function (result) {
+      const status = result.status;
+      const data = result.data;
+      console.log('통신결과 : ', result);
+      underFestivalList = data.culturalEventInfo.row;
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 
   cardRender();
 };
