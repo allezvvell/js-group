@@ -1,1 +1,1 @@
-/api/* http://openapi.seoul.go.kr:8088/59746b4962686f7436334e564e6778/json/culturalEventInfo/1/50///2024-07-21/:splat 200
+/api/* http://openapi.seoul.go.kr:8088/59746b4962686f7436334e564e6778/json/culturalEventInfo/:splat 200
