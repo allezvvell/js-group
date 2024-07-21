@@ -1,9 +1,18 @@
 // <---------------------------------------------------------------여기 부터 소식 하단 파트 --------------------------------------------------------->//
 const festivalApiKey = `59746b4962686f7436334e564e6778`;
 
-const url = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`;
-axios
-  .get(url)
+const host =
+  window.location.hostname === 'localhost'
+    ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///`
+    : 'api';
+
+const apiClient = axios.create({
+  baseURL: host,
+});
+
+// const url = `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`;
+apiClient
+  .get('2024-07-21')
   .then(function (result) {
     const status = result.status;
     const data = result.data;
