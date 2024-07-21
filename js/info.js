@@ -1,12 +1,12 @@
 // <---------------------------------------------------------------여기 부터 소식 하단 파트 --------------------------------------------------------->//
 const festivalApiKey = `59746b4962686f7436334e564e6778`;
 
-const host =
+let host =
   window.location.hostname === 'localhost'
     ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
     : 'api';
 
-const apiClient = axios.create({
+let apiClient = axios.create({
   baseURL: host,
 });
 
@@ -51,6 +51,28 @@ const getCardsByCategory = (event) => {
     festivalView();
   } else {
     console.log('카테고리 클릭');
+    if (category === '국악') {
+      host =
+        window.location.hostname === 'localhost'
+          ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
+          : 'apiK';
+      apiClient = axios.create({
+        baseURL: host,
+      });
+      apiClient
+        .get(`1/50/${category}///2024-07-21`)
+        .then(function (result) {
+          const status = result.status;
+          const data = result.data;
+          console.log('통신결과 : ', result);
+          underFestivalList = data.culturalEventInfo.row;
+          cardRender();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+      return;
+    }
     apiClient
       .get(`1/50/${category}///2024-07-21`)
       .then(function (result) {
