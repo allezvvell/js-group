@@ -48,7 +48,7 @@ const festivalByCategory = (api) => {
   host =
     window.location.hostname === 'localhost'
       ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
-      : api;
+      : 'apiK';
 
   apiClient = axios.create({
     baseURL: host,
