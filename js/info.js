@@ -43,15 +43,9 @@ const festivalView = () => {
     });
 };
 
-const festivalByCategory = (api) => {
-  console.log('api', api);
-  host =
-    window.location.hostname === 'localhost'
-      ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
-      : 'apiK';
-
+const festivalByCategory = (apiSrc) => {
   apiClient = axios.create({
-    baseURL: host,
+    baseURL: apiSrc,
   });
 
   festivalView();
@@ -64,8 +58,33 @@ const getCardsByCategory = (event) => {
   if (category === '전체') {
     festivalView();
   } else {
-    console.log('카테고리 클릭');
-    festivalByCategory(category);
+    let categoryNum;
+    switch (category) {
+      case '국악':
+        categoryNum = 'api1';
+        break;
+      case '연극':
+        categoryNum = 'api2';
+        break;
+      case '축제-문화/예술':
+        categoryNum = 'api3';
+        break;
+      case '전시/미술':
+        categoryNum = 'api4';
+        break;
+      case '무용':
+        categoryNum = 'api5';
+        break;
+      case '교육/체험':
+        categoryNum = 'api6';
+        break;
+      case '콘서트':
+        categoryNum = 'api7';
+        break;
+      default:
+        return;
+    }
+    festivalByCategory(categoryNum);
   }
 };
 
