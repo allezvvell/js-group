@@ -271,9 +271,9 @@ function renderCarousel() {
       !item.firstimage ? 'no-img' : ''
     }" style="background-image:url(${
       item.firstimage || 'image/noImage.png'
-    })"><a href="festivalDetail.html?id=${
+    })"><a href="#" data-contentid="${
       item.contentid
-    }"><span class="swiper-status translatable ${
+    }" class="carousel-item-link"><span class="swiper-status translatable ${
       startDate > item.eventstartdate ? 'ing' : 'wil'
     }">${
       startDate > item.eventstartdate ? '진행중' : '오픈예정'
@@ -302,6 +302,10 @@ function renderCarousel() {
   document
     .querySelector('.item-more-btn')
     .addEventListener('click', getMoreInfo);
+
+  document.querySelectorAll('.carousel-item-link').forEach((item) => {
+    item.addEventListener('click', moveToHomepage);
+  });
 }
 
 async function renderMoreList() {
