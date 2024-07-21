@@ -3,7 +3,7 @@ const festivalApiKey = `59746b4962686f7436334e564e6778`;
 
 const host =
   window.location.hostname === 'localhost'
-    ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///`
+    ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
     : 'api';
 
 const apiClient = axios.create({
@@ -27,17 +27,10 @@ function googleTranslateElementInit() {
   );
 }
 
-const festivalView = async () => {
+const festivalView = () => {
   // API 값을 불러오는 기능
-
-  // const response = await fetch(underFestivalUrl);
-  // const data = await response.json();
-  // underFestivalList = data.culturalEventInfo.row;
-  // console.log(data);
-  // console.log(underFestivalList);
-
   apiClient
-    .get('2024-07-21')
+    .get('1/50///2024-07-21')
     .then(function (result) {
       const status = result.status;
       const data = result.data;
@@ -55,17 +48,23 @@ const getCardsByCategory = async (event) => {
   let category = event.currentTarget.getAttribute('data-categoryBtn');
   console.log(category);
   if (category === '전체') {
-    underFestivalUrl = new URL(
-      `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50///2024-07-21`
-    );
-    await festivalView();
+    festivalView();
   } else {
-    let Url = new URL(
-      `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/1/50/${category}///2024-07-21`
-    );
-    underFestivalUrl = decodeURIComponent(Url);
-
-    await festivalView();
+    // let Url = new URL(
+    //   `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
+    // );
+    apiClient
+      .get(`1/50/${category}///2024-07-21`)
+      .then(function (result) {
+        const status = result.status;
+        const data = result.data;
+        console.log('통신결과 : ', result);
+        underFestivalList = data.culturalEventInfo.row;
+        cardRender();
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }
 };
 
