@@ -50,9 +50,6 @@ const getCardsByCategory = async (event) => {
   if (category === '전체') {
     festivalView();
   } else {
-    // let Url = new URL(
-    //   `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
-    // );
     apiClient
       .get(`1/50/${category}///2024-07-21`)
       .then(function (result) {
