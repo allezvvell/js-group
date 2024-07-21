@@ -2,9 +2,10 @@
 const festivalApiKey = `59746b4962686f7436334e564e6778`;
 
 let host =
-  window.location.hostname === 'localhost'
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
     ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
-    : 'api';
+    : 'api0';
 
 let apiClient = axios.create({
   baseURL: host,
@@ -29,6 +30,15 @@ function googleTranslateElementInit() {
 
 const festivalView = () => {
   // API 값을 불러오는 기능
+  host =
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1'
+      ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
+      : 'api0';
+
+  apiClient = axios.create({
+    baseURL: host,
+  });
   apiClient
     .get('1/50///2024-07-21')
     .then(function (result) {
@@ -43,49 +53,65 @@ const festivalView = () => {
     });
 };
 
-const festivalByCategory = (apiSrc) => {
+const festivalByCategory = (category, apiSrc) => {
+  host =
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1'
+      ? `http://openapi.seoul.go.kr:8088/${festivalApiKey}/json/culturalEventInfo/`
+      : apiSrc;
+
   apiClient = axios.create({
-    baseURL: apiSrc,
+    baseURL: host,
   });
 
-  festivalView();
+  apiClient
+    .get(`1/50/${category}///2024-07-21`)
+    .then(function (result) {
+      const status = result.status;
+      const data = result.data;
+      console.log('통신결과 : ', result);
+      underFestivalList = data.culturalEventInfo.row;
+      cardRender();
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 };
 
 const getCardsByCategory = (event) => {
   // 버튼을 누르면 해당 카테고리의 행사를 찾아주는 기능
   let category = event.currentTarget.getAttribute('data-categoryBtn');
-  console.log(category);
+  let apiSrc;
   if (category === '전체') {
     festivalView();
-  } else {
-    let categoryNum;
-    switch (category) {
-      case '국악':
-        categoryNum = 'api1';
-        break;
-      case '연극':
-        categoryNum = 'api2';
-        break;
-      case '축제-문화/예술':
-        categoryNum = 'api3';
-        break;
-      case '전시/미술':
-        categoryNum = 'api4';
-        break;
-      case '무용':
-        categoryNum = 'api5';
-        break;
-      case '교육/체험':
-        categoryNum = 'api6';
-        break;
-      case '콘서트':
-        categoryNum = 'api7';
-        break;
-      default:
-        return;
-    }
-    festivalByCategory(categoryNum);
+    return;
   }
+  switch (category) {
+    case '국악':
+      apiSrc = 'api1';
+      break;
+    case '연극':
+      apiSrc = 'api2';
+      break;
+    case '축제-문화/예술':
+      apiSrc = 'api3';
+      break;
+    case '전시/미술':
+      apiSrc = 'api4';
+      break;
+    case '무용':
+      apiSrc = 'api5';
+      break;
+    case '교육/체험':
+      apiSrc = 'api6';
+      break;
+    case '콘서트':
+      apiSrc = 'api7';
+      break;
+    default:
+      return;
+  }
+  festivalByCategory(category, apiSrc);
 };
 
 const cardRender = () => {
